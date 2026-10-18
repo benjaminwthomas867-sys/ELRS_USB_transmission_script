@@ -8,7 +8,7 @@ BAUD_RATE = 420000  # crsf baud rate
 crsf_sync = 0xC8
 crsf_frametype = 0x16
 
-def calc_crc_checksum(data: bytes) -> int: # produces the crc checksum
+def calc_crc_checksum(data): # produces the crc checksum
   crc = 0
   for byte in data:
     crc ^= byte
@@ -19,7 +19,7 @@ def calc_crc_checksum(data: bytes) -> int: # produces the crc checksum
         crc = (crc << 1) & 0xFF
   return crc
 
-def create_rc_channels_frame(channels: list[int]) -> bytes:
+def create_rc_channels_frame(channels):
   data = 0
   bits_filled = 0
   payload_bits = []
@@ -47,7 +47,7 @@ def create_rc_channels_frame(channels: list[int]) -> bytes:
   return frame
 
 try:
-  ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=0.1)
+  ser = serial.Serial(SERIAL_PORT, BAUD_RATE)
   print(f"Connected to ELRS USB module on {SERIAL_PORT} at {BAUD_RATE} baud.")
   
     # roll, pitch, throttle, yaw, aux1, aux2 ...
